@@ -4,8 +4,12 @@ struct list {
   int data;
   struct list *next;
 };
+
 typedef struct list * node;
+
 node head=NULL;
+node b=NULL;
+
 node createNode(){
   node temp;
   temp = (node)malloc(sizeof(struct list));
@@ -384,21 +388,135 @@ void sort()
   }
 }
 
+void search(int p)
+{
+  node t;
+  int i;
+  if(head==NULL)
+  {
+    printf("\nList Empty!!");
+    return;
+  }
+  t=head;
+  i=1;
+  while(t!=NULL)
+  {
+    if(t->data==p)
+    {
+      printf("\nValue found at node no: %d",i);
+      return;
+    }
+    i++;
+    t=t->next;
+  }
+  printf("\nValue not in List.");
+}
+void create2ndList()
+{
+  int data,ch;
+  node temp,p,t;
+  if(b!=NULL)
+  {
+    printf("\nList already created!!");
+    return;
+  }
+  do {
+    printf("\nEnter value of new node: ");
+    scanf("%d",&data);
+    temp = createNode();
+    temp->data = data;
+    if(b == NULL){
+      b = p= temp;
+    }
+    else {
+      p->next=temp;
+      p=temp;
+    }
+    printf("\n0->Stop\t1->Continue.. : ");
+    scanf("%d",&ch);
+  } while(ch);
+
+}
+
+void merge()
+{
+  node p,t;
+  if (head==NULL) 
+  {
+    printf("Original List is Empty!!");
+    return;
+  }
+  printf("\nEnter the 2nd list:");
+  create2ndList();
+  p=head;
+  while(p->next!=NULL)
+    p=p->next;
+  t=b;
+  while (b!=NULL) 
+  {
+    p->next=b;
+    b=b->next;
+    p=p->next;
+  }
+  sort();
+}
+
+void concat()
+{
+  node p,t;
+  if (head==NULL) 
+  {
+    printf("Original List is Empty!!");
+    return;
+  } 
+  p=head;
+  while(p->next!=NULL)
+    p=p->next;
+  t=b;
+  while (b!=NULL) 
+  {
+    p->next=b;
+    b=b->next;
+    p=p->next;
+  }
+}
+
+int equal()
+{
+  node p,t;
+  if (head==NULL) 
+  {
+    printf("Original List is Empty!!");
+    createList();
+  } 
+  p=head;
+  t=b;
+  while(p!=NULL && t!=NULL)
+  {
+    if(p->data!=t->data)
+      return 0;
+    p=p->next;
+    t=t->next;
+  }
+  if(p!=NULL || t!=NULL)
+    return 0;
+  return 1;
+}
 int main()
 {
   int ch,val,k;
   node t;
   do {
-    printf("\n1->create List\n2->display\n3->insertFront\n4->insertEnd\n5->insertK");
+    printf("\n\n1->create List\n2->display\n3->insertFront\n4->insertEnd\n5->insertK");
     printf("\n6->InsertAfterValue\n7->insertBeforeK\n8->insertBeforeValue\n9->deleteFirst\n10->deleteEnd");
     printf("\n11->deleteAfterKthNode\n12->deleteBeforeKthNode\n13->deleteKthNode\n14->deleteNodeWithValue");
-    printf("\n15->reverseList\n16->sortList\n0->exit\n->");
+    printf("\n15->reverseList\n16->sortList\n17->searchList\n18->mergeList\n19->concatenateList\n20->checkEqual\n0->exit\n->");
     scanf("%d",&ch);
     switch (ch) {
       case 0:
         break;
       case 1:
-        createList(head);
+        createList();
         break;
       case 2:
         printf("\nList:");
@@ -475,6 +593,34 @@ int main()
       case 16:
         printf("\nList Sorted!!");
         sort();
+        break;
+      case 17:
+        printf("\nEnter value to be found: ");
+        scanf("%d",&val);
+        search(val);
+        break;
+      case 18:
+        merge();
+        printf("\nLists Merged!");
+        break;
+      case 19:
+        if(b==NULL)
+        {
+          printf("\nCreate 2nd List:\n");
+          create2ndList();
+        }
+        concat();
+        break;
+      case 20:
+        if(b==NULL)
+        {
+          printf("\nCreate 2nd List:\n");
+          create2ndList();
+        }
+        if(equal())
+          printf("The 2 lists are equal!");
+        else
+         printf("The 2 lists are not equal!");
         break;
       default:
         printf("\nInvalid choice!");
