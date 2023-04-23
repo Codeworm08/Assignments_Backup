@@ -142,15 +142,138 @@ node add(node p1, node p2)
   return sum;
 }
 
+node sub(node p1, node p2)
+{
+   node diff, x, y, t;
+  diff = NULL;
+  if (p1 == NULL && p2 == NULL)
+  {
+    printf("No polynomials passed!");
+    return diff;
+  }
+  x = p1;
+  y = p2;
+  sort(&x);
+  sort(&y);
+  while (x != NULL && y != NULL)
+  {
+    if (x->pow < y->pow)
+    {
+      createNode(x->coeff, x->pow, &diff);
+      x = x->next;
+    }
+    else if (x->pow > y->pow)
+    {
+      createNode(-y->coeff, y->pow, &diff);
+      y = y->next;
+    }
+    else
+    {
+      createNode(x->coeff - y->coeff, y->pow, &diff);
+      x = x->next;
+      y = y->next;
+    }
+  }
+  
+  while (x != NULL)
+  {
+    createNode(x->coeff, x->pow, &diff);
+    x = x->next;
+  }
+  while (y != NULL)
+  {
+    createNode(-y->coeff, y->pow, &diff);
+    y = y->next;
+  }
+  return diff;
+}
+
+void removeDuplicates(node p)
+{
+  node l,r,t;
+  l=p;
+  while(l != NULL && l->next != NULL)
+  {
+      r=l;
+      while(r->next!=NULL)
+      {
+        if(l->pow==r->next->pow)
+        {
+          l->coeff=l->coeff+r->next->coeff;
+          t=r->next;
+          r->next=r->next->next;
+          free(t);
+        }
+        else
+          r=r->next;        
+      }
+      l=l->next;
+  }
+}
+
+node mult(node p1, node p2)
+{
+  node mul,x,y;
+  int c,p;
+  mul=NULL;
+  x=p1;
+  y=p2;
+  while(x!=NULL){
+    while(y!=NULL){
+      c = x->coeff * y->coeff;
+      p = x->pow + y->pow;
+      createNode(c,p,&mul);
+      y=y->next;
+    }
+    y=p2;
+    x=x->next;
+  }
+  removeDuplicates(mul);
+  sort(&mul);
+  return mul;
+}
+
 int main()
 {
-  node p1, p2, sum;
+  node p1, p2, sum, diff, mul;
+  int ch;
   p1 = NULL;
   p2 = NULL;
-  printf("\nEnter 1st polynomial:");
-  createPoly(&p1);
-  printf("\nEnter 2nd polynomial:");
-  createPoly(&p2);
+  do
+  {
+    printf("\n1->Create 2 polynomials\n2->Add polynomials\n3->Subtract\n4->Multiply\n0->Exit\n\t->");
+    scanf("%d",&ch);
+    switch(ch)
+    {
+      case 0:
+        break;
+      case 1:
+        printf("\nEnter 1st polynomial:");
+        createPoly(&p1);
+        printf("\nEnter 2nd polynomial:");
+        createPoly(&p2);
+        break;
+      case 2:
+        sum = add(p1, p2);
+        show(sum);
+        break;
+      case 3:
+        diff = sub(p1,p2);
+        printf("\nP1 - P2:\n");
+        show(diff);
+        break;
+      case 4:
+        mul = mult(p1,p2);
+        printf("\nP1 * P2:\n");
+        show(mul);
+        break;
+      default:
+        printf("\nInvalid choice!");
+    }
+  
+  } while (ch);
+  
+  
   /*createNode(3, 2, &p1);
   createNode(-1, 1, &p1);
   createNode(-1, 9, &p1);
@@ -159,7 +282,6 @@ int main()
   createNode(3, 9, &p2);
   createNode(4, 3, &p2);*/
   
-  sum = add(p1, p2);
-  show(sum);
+  
   return 0;
 }
