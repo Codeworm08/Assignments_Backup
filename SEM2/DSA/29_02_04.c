@@ -70,7 +70,7 @@ void createList(int n, node *head)
     for (i = 0; i < n; i++)
     {
         // printf("s");
-        temp = createNode(0);
+        temp = createNode(i);
         if (*head == NULL)
         {
             *head = temp;
@@ -97,39 +97,102 @@ void display(node head)
     }
     printf("%d", t->data);
 }
-int left(node head)
+
+void delFirst(node *head)
 {
-    int l;
-    node t;
-    t = head;
-    l = 0;
-    do
+    node p, t;
+    if (*head == NULL)
     {
-        if (t->data == 0)
-            l++;
+        printf("\nEmpty List!!");
+        return;
+    }
+    p = *head;
+    t = *head;
+    while (t->next != *head)
         t = t->next;
-    } while (t->next != head);
-    return l;
-}
-int exL(int n, int k, node head)
-{
-    int i, l;
-    node r;
-    r = head;
-    for (i = 0; i < k - 1; i++)
-        r = r->next;
-    r->data = 1;
-    l = left(head);
-    if (l == 1)
+    if (t == *head)
     {
-        r = head;
-        for (i = 0; i < n; i++)
+        *head = NULL;
+        free(t);
+    }
+    // printf("\nElement deleted: %d",head->data);
+    *head = (*head)->next;
+    free(p);
+}
+
+void delK(int k, node *head)
+{
+    node p, t;
+    int i;
+    if (*head == NULL)
+    {
+        printf("\nEmpty List!!");
+        return;
+    }
+    if (k == 1)
+    {
+        delFirst(head);
+        return;
+    }
+    p = *head;
+    for (i = 1; i < k - 1; i++)
+    {
+        if (p->next == *head)
         {
-            if (r->data == 0)
-                return i;
+            printf("\nPosition does not exist in List!");
+            return;
+        }
+        p = p->next;
+    }
+    t = p->next;
+    p->next = t->next;
+    t->next = NULL;
+    free(t);
+}
+
+int exL(int n, int k, node *head)
+{
+    int i, st;
+    node r, prev;
+    r = *head;
+    printf("\nEnter starting point(0-%d): ", n - 1);
+    scanf("%d", &st);
+    for (i = 0; i < st; i++)
+        r = r->next;
+    while ((*head)->next != *head)
+    {
+        for (i = 0; i <= k; i++)
             r = r->next;
+        if (r == *head)
+        {
+            prev = *head;
+            while (prev->next != *head)
+                prev = prev->next;
+            *head = (*head)->next;
+            prev->next = *head;
+            r->next = NULL;
+            free(r);
+            r = *head;
+        }
+        else if (r->next == *head)
+        {
+            prev = *head;
+            while (prev->next != r)
+                prev = prev->next;
+            prev->next = *head;
+            r->next = NULL;
+            free(r);
+            r = *head;
+        }
+        else
+        {
+            prev->next = r->next;
+            r->next = NULL;
+            free(r);
+            r = prev->next;
         }
     }
+    return (*head)->data;
 }
 int main()
 {
@@ -141,7 +204,7 @@ int main()
     scanf("%d", &k);
     createList(n, &head);
     display(head);
-    printf("\nPerson alive: %d\n",exL(n,k,head));
+    printf("\nPerson alive: %d\n", exL(n, k, &head));
     // printf("\n%d", ex2d(n, k));
     return 0;
 }
