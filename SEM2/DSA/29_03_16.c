@@ -56,6 +56,34 @@ bool getFront(int *x)
 
 int main()
 {
-
+    int ch,data;
+    size();
+    do{
+        printf("\n0->Quit\n1->Enqueue\n2->Dequeue\n3->Get Front\n=> ");
+        scanf("%d",&ch);
+        switch (ch)
+        {
+        case 0:
+            break;
+        case 1:
+            printf("\nEnter data: ");
+            scanf("%d",&data);
+            enqueue(data);
+            break;
+        case 2:
+            if(dequeue(&data))
+            {
+                printf("\nData popped: %d",data);
+            }
+            break;
+        case 3:
+            if(getFront(&data))
+                printf("\nData at queue front: %d",data);
+            break;
+        default:
+            printf("\nInvalid input.");
+            break;
+        }
+    }while(ch!=0);
     return 0;
 }
