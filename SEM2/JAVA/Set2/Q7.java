@@ -53,7 +53,34 @@ public class Q7 {
                 case 0:
                     break;
                 case 1:
-                    
+                    System.out.println("Number of a's: "+aCount(s));
+                    break;
+                case 2:
+                    System.out.println("No of and's: "+andCount(s));
+                    break;
+                case 3:
+                    System.out.println(s.startsWith("The")? "Yes" : "No");
+                    break;
+                case 4:
+                    char[] a = new char[s.length()];
+                    for(int i=0;i<s.length();i++)
+                        a[i]=s.charAt(i);
+                    System.out.println("Elements in the array: ");
+                    for(int i=0;i<s.length();i++)
+                        System.out.print(a[i]+" ");
+                    System.out.println();
+                    break;
+                case 5:
+                    String[] tokens = s.split("[.\\s@]");
+                    System.out.println("The tokens are: ");
+                    for(String x : tokens)
+                    {
+                        System.out.println(x);
+                    }
+                    break;
+                default:
+                    System.out.println("Wrong choice.");
+                    break;
             }
         }while(ch!=0);
     }
