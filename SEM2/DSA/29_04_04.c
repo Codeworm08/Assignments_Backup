@@ -27,7 +27,7 @@ node *create(int n)
 }
 
 // Insert iterative
-void insertiterative(node **p, int n)
+void insert(node **p, int n)
 {
     node *c, *t = *p;
     c = create(n);
@@ -66,41 +66,8 @@ void insertiterative(node **p, int n)
     }
 }
 
-// pre order traversal
-void preorder(node *p)
-{
-    if (p == NULL)
-        return;
-    printf("%d ", p->data);
-    preorder(p->left);
-    preorder(p->right);
-    return;
-}
-
-// In order traversal
-void inorder(node *p)
-{
-    if (p == NULL)
-        return;
-    inorder(p->left);
-    printf("%d ", p->data);
-    inorder(p->right);
-    return;
-}
-
-// Post order traversal
-void postorder(node *p)
-{
-    if (p == NULL)
-        return;
-    postorder(p->left);
-    postorder(p->right);
-    printf("%d ", p->data);
-    return;
-}
-
-// Search iterative
-node *searchiterative(node *p, int n)
+// Search
+node *search(node *p, int n)
 {
     node *t = p;
     if (p == NULL)
@@ -164,7 +131,7 @@ int main()
     do
     {
         printf("\n\nEnter option :\n");
-        printf("0 -> Exit\n1 -> Create Tree\n2 -> Insert\n3 -> Pre order traversal\n4 -> Inorder traversal\n5 -> Post order traversal\n6 -> Search iterative\n7 -> Delete\n");
+        printf("0 -> Exit\n1 -> Create Tree\n2 -> Insert\n3 -> Search\n4 -> Delete\n");
         scanf("%d", &choice);
         switch (choice)
         {
@@ -176,29 +143,17 @@ int main()
         case 2:
             printf("Enter the data to be inserted = ");
             scanf("%d", &n);
-            insertiterative(&root, n);
+            insert(&root, n);
             break;
         case 3:
-            printf("\nPreorder traversal : ");
-            preorder(root);
-            break;
-        case 4:
-            printf("\nInorder traversal : ");
-            inorder(root);
-            break;
-        case 5:
-            printf("\nPostorder traversal : ");
-            postorder(root);
-            break;
-        case 6:
             printf("Enter the data to be search = ");
             scanf("%d", &n);
-            if (searchiterative(root, n))
+            if (search(root, n))
                 printf("Value found\n");
             else
                 printf("Value not found");
             break;
-        case 7:
+        case 4:
             printf("Enter the data to be deleted = ");
             scanf("%d", &n);
             root = deletenode(root, n);
