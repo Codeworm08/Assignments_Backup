@@ -1,0 +1,3 @@
+leo:kolkata,190
+sid:kolkata,158/1
+ram:yod, 70/8
