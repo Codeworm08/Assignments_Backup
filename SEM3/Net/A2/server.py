@@ -12,8 +12,7 @@ def handle_client(con, addr):
             print(addr," disconnected")
             break
         print(f"Received from client {addr}: ",data)
-        res="Received"
-        con.send(res.encode())
+        
     con.close()
 k = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print("Server has created a port")

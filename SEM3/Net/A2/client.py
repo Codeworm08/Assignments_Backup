@@ -11,8 +11,6 @@ try:
         k.send(data.encode())
         if data.lower() == "quit":
             break
-        res = k.recv(BUF_SIZE).decode()
-        print("Server Response: ",res)
         
 except Exception as e:
     print(f"Exception {e} occured.\nClosing client")
