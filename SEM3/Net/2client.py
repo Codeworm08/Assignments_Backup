@@ -7,10 +7,10 @@ k.connect((IP_ADDR,TCP_PORT))
 print("Client sent connection request")
 while True:
     exp = input("Enter integer arithmetic expression:")
-    k.send(exp.encode())
-    if exp.lower()=="exit":
-        break
+    k.send(exp.encode())    
     res = k.recv(BUF_SIZE)
+    if res.decode().lower()=="exit":#client closed if exit received from server
+        break
     print(res.decode())
 print("Client disconnected")
 k.close()

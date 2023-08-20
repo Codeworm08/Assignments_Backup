@@ -8,7 +8,8 @@ while True:
     if name.lower() == "exit":
         k.sendto(name.encode(),(IP_ADDR,UDP_PORT))
         break
-    k.sendto(name.encode(),(IP_ADDR,UDP_PORT))
+    k.sendto(name.encode(),(IP_ADDR,UDP_PORT))#Since UDP is connection less protocol, IP address and port specified every time data is sent to server
     data,_ = k.recvfrom(BUF_SIZE)
+    
     print(data.decode())
 k.close()

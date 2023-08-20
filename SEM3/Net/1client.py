@@ -4,7 +4,14 @@ IP_ADDR = '127.0.0.1'
 BUF_SIZE = 1024
 k = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 k.connect((IP_ADDR,TCP_PORT))
-print("Client sent connection request")
-data = k.recv(BUF_SIZE)
-print(data.decode())
+while True:
+    ch=str(input("Enter date:Get current date and time. quit:Close connection "))
+    k.send(ch.encode())
+    data = k.recv(BUF_SIZE)
+    if data.decode() == "quit":
+        break
+    print(data.decode())
+        
+print("Client disconnected")
+
 k.close()
