@@ -3,17 +3,14 @@ from scapy.all import IP, ICMP, send, sr1
 import ipaddress
 from time import sleep
 networkAddress = input("Enter Network Address: ")
-ipAd = ipaddress.ip_network(networkAddress, False)
-timeout = int(input("Time to wait for reply in seconds:"))
+ipAd = ipaddress.ip_network(networkAddress, False) #Convert input address to ipaddress object to find all hosts
+timeout = int(input("Time to wait for reply in seconds:")) #timeout for reply
 hosts=[]
 print("Sending ICMP packet to all hosts....")
-for i in ipAd.hosts():
-    #print(i)
-    d=str(i)
-    #print("Sending ICMP packet to ",d,"...")
+for i in ipAd.hosts():    #iterate through all hosts
+    d=str(i)    #since sr1 accepts string
     res=sr1(IP(dst=d)/ICMP()/"ABCD", verbose=False,timeout=timeout)
-    print(res,i)
-    if res:
+    if res: # if res is not none reply received before timeout
         hosts.append(i)
 print("Received reply from:")
 for h in hosts:
