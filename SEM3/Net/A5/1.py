@@ -12,6 +12,7 @@ for i in ipAd.hosts():
     d=str(i)
     #print("Sending ICMP packet to ",d,"...")
     res=sr1(IP(dst=d)/ICMP()/"ABCD", verbose=False,timeout=timeout)
+    print(res,i)
     if res:
         hosts.append(i)
 print("Received reply from:")
